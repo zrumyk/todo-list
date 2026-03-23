@@ -1,29 +1,39 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const authMiddleware = require("../middleware/auth.middleware");
-const userMiddleware = require("../middleware/zod/user.middleware");
+// schema
+const { usersSchema } = require('../schemas')
+
+// middleWare
+const authMiddleware = require('../middleware/auth.middleware')
+const validate = require('../middleware/validate.middleware')
 
 // db init
-const { prisma } = require("../lib/prisma");
+const { prisma } = require('../lib/prisma')
 
 // class import
-const UserRepository = require("../repositories/user.repository");
-const UserService = require("../services/user.service");
-const UserController = require("../controllers/user.controller");
+const UserRepository = require('../repositories/user.repository')
+const UserService = require('../services/user.service')
+const UserController = require('../controllers/user.controller')
 
 // dependencies
-const userRepository = new UserRepository(prisma);
-const userService = new UserService(userRepository);
-const userController = new UserController(userService);
+const userRepository = new UserRepository(prisma)
+const userService = new UserService(userRepository)
+const userController = new UserController(userService)
 
 // routes
-router.post("/register", userMiddleware, userController.register);
-router.post("/login", userController.login);
+router.post('/register', validate(usersSchema.create), userController.register)
+router.post('/login', userController.login)
 
-router.get("/user", authMiddleware, userController.getUser);
+router.get('/user', authMiddleware, userController.find)
 
-router.patch("/update/username", authMiddleware, userController.changeName);
-router.patch("/update/password", authMiddleware, userController.changePassword);
+router.patch(
+    '/update',
+    authMiddleware,
+    validate(usersSchema.update),
+    userController.update
+)
 
-module.exports = router;
+router.delete('/delete', authMiddleware, userController.delete)
+
+module.exports = router

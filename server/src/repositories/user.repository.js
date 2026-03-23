@@ -1,39 +1,37 @@
 class UserRepository {
-  constructor(prisma) {
-    this.prisma = prisma;
-  }
+    constructor(prisma) {
+        this.prisma = prisma
+    }
 
-  async createUser(data) {
-    return await this.prisma.user.create({ data });
-  }
+    async create(data) {
+        return this.prisma.user.create({ data })
+    }
 
-  async changeName(id, newUsername) {
-    return await this.prisma.user.update({
-      where: { id: Number(id) },
-      data: { username: newUsername },
-    });
-  }
+    async update(userId, data) {
+        await this.prisma.user.update({
+            where: { id: Number(userId) },
+            data,
+        })
+    }
 
-  async changePassword(id, newPassword) {
-    await this.prisma.user.update({
-      where: { id: Number(id) },
-      data: { password: newPassword },
-    });
-  }
+    async delete(userId) {
+        await this.prisma.$transaction([
+            this.prisma.task.deleteMany({ where: { userId } }),
+            this.prisma.user.delete({ where: { id: userId } }),
+        ])
+    }
 
-  async deleteUser() {}
+    async findByEmail(email) {
+        return this.prisma.user.findUnique({
+            where: { email },
+        })
+    }
 
-  async findByEmail(email) {
-    return await this.prisma.user.findUnique({
-      where: { email },
-    });
-  }
-
-  async findById(id) {
-    return await this.prisma.user.findUnique({
-      where: { id: Number(id) },
-    });
-  }
+    async findById(userId) {
+        return this.prisma.user.findUnique({
+            where: { id: Number(userId) },
+        })
+    }
 }
 
-module.exports = UserRepository;
+module.exports = UserRepository
