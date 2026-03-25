@@ -4,11 +4,13 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest --coverage",
+        "start": "node src/server.js",
         "dev": "nodemon src/server.js",
+        "test": "jest --coverage",
+        "test:watch": "jest --watchAll",
         "lint": "eslint **/*.js",
-        "format": "prettier --write .",
-        "format-check": "prettier --check ."
+        "format:fix": "prettier --write .",
+        "format:check": "prettier --check ."
     },
     "keywords": [],
     "author": "",
@@ -22,20 +24,24 @@
         "dotenv": "^17.3.1",
         "express": "^5.2.1",
         "helmet": "^8.1.0",
-        "jest-mock-extended": "^4.0.0",
         "joi": "^18.0.2",
         "jsonwebtoken": "^9.0.3",
         "morgan": "^1.10.1",
         "pg": "^8.20.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.29.0",
+        "@babel/node": "^7.29.0",
+        "@babel/preset-env": "^7.29.2",
         "@eslint/js": "^10.0.1",
         "@types/jest": "^30.0.0",
         "@types/pg": "^8.20.0",
         "eslint": "^10.1.0",
         "globals": "^17.4.0",
         "jest": "^30.3.0",
+        "jest-mock-extended": "^4.0.0",
         "nodemon": "^3.1.14",
+        "prettier": "^3.8.1",
         "prisma": "^7.5.0"
     }
 }

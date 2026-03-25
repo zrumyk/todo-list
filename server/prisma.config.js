@@ -1,5 +1,5 @@
-const config = require('./src/configuration/config')
-const { defineConfig } = require('prisma/config')
+const config = require('./src/configuration/config');
+const { defineConfig } = require('prisma/config');
 
 module.exports = defineConfig({
     schema: 'prisma/schema.prisma',
@@ -9,4 +9,4 @@ module.exports = defineConfig({
     datasource: {
         url: config.dbUrl,
     },
-})
+});

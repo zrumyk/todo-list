@@ -21,7 +21,7 @@ const config = {
     collectCoverage: true,
 
     // An array of glob patterns indicating a set of files for which coverage information should be collected
-    // collectCoverageFrom: undefined,
+    // collectCoverageFrom: ['src/**/*.js', '!src/server.js'],
 
     // The directory where Jest should output its coverage files
     coverageDirectory: 'coverage',
@@ -77,18 +77,7 @@ const config = {
     // ],
 
     // An array of file extensions your modules use
-    // moduleFileExtensions: [
-    //   "js",
-    //   "mjs",
-    //   "cjs",
-    //   "jsx",
-    //   "ts",
-    //   "mts",
-    //   "cts",
-    //   "tsx",
-    //   "json",
-    //   "node"
-    // ],
+    moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'json', 'node'],
 
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
     // moduleNameMapper: {},
@@ -147,7 +136,7 @@ const config = {
     // snapshotSerializers: [],
 
     // The test environment that will be used for testing
-    // testEnvironment: "jest-environment-node",
+    testEnvironment: 'node',
 
     // Options that will be passed to the testEnvironment
     // testEnvironmentOptions: {},
@@ -176,7 +165,9 @@ const config = {
     // testRunner: "jest-circus/runner",
 
     // A map from regular expressions to paths to transformers
-    // transform: undefined,
+    transform: {
+        '^.+\\.m?js$': 'babel-jest',
+    },
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
     // transformIgnorePatterns: [
@@ -195,6 +186,6 @@ const config = {
 
     // Whether to use watchman for file crawling
     // watchman: true,
-}
+};
 
-module.exports = config
+module.exports = config;
