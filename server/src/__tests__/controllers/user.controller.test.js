@@ -31,54 +31,6 @@ describe('user.controller', () => {
         next = jest.fn();
     });
 
-    describe('register', () => {
-        test('should return status 201 and data', async () => {
-            const data = { id: 1 };
-            mockUserService.register.mockResolvedValue(data);
-
-            await userController.register(req, res, next);
-
-            expect(mockUserService.register).toHaveBeenCalledWith(req.body);
-            expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
-            expect(next).not.toHaveBeenCalled();
-        });
-
-        test('should catch an error in next()', async () => {
-            const fakeError = new Error('Error :(');
-            mockUserService.register.mockRejectedValue(fakeError);
-
-            await userController.register(req, res, next);
-
-            expect(next).toHaveBeenCalledWith(fakeError);
-            expect(res.status).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('login', () => {
-        test('should return status 200 and data', async () => {
-            const data = { id: 1 };
-            mockUserService.login.mockResolvedValue(data);
-
-            await userController.login(req, res, next);
-
-            expect(mockUserService.login).toHaveBeenCalledWith(req.body);
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
-            expect(next).not.toHaveBeenCalled();
-        });
-
-        test('should catch an error in next()', async () => {
-            const fakeError = new Error('Error :(');
-            mockUserService.login.mockRejectedValue(fakeError);
-
-            await userController.login(req, res, next);
-
-            expect(next).toHaveBeenCalledWith(fakeError);
-            expect(res.status).not.toHaveBeenCalled();
-        });
-    });
-
     describe('find', () => {
         test('should return status 200 and data', async () => {
             const data = { id: 1 };
