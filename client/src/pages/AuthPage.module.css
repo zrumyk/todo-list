@@ -1,0 +1,35 @@
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--bg-main);
+}
+
+.authBox {
+  background-color: var(--bg-surface);
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.toggleContainer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.toggleBtn {
+  color: var(--primary);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.toggleBtn:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}

@@ -1,10 +1,10 @@
-const config = require('../configuration/config');
-const { PrismaPg } = require('@prisma/adapter-pg');
-const { PrismaClient } = require('@prisma/client');
+const config = require('../configuration/config')
+const { PrismaPg } = require('@prisma/adapter-pg')
+const { PrismaClient } = require('@prisma/client')
 
-const connectionString = `${config.dbUrl}`;
+const connectionString = `${config.dbUrl}`
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const adapter = new PrismaPg({ connectionString })
+const prisma = new PrismaClient({ adapter })
 
-module.exports = { prisma };
+module.exports = { prisma }

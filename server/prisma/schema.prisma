@@ -23,9 +23,9 @@ model Task{
   id String           @id @default(uuid()) @db.Uuid
   title String
   description String?
-  user User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int          @map("user_id")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  status Status       @default(TODO)  
+  user User           @relation(fields: [userId], references: [id])
+  userId Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  status Status       @default(TODO)
 }

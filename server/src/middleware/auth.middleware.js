@@ -1,27 +1,27 @@
-const jwt = require('jsonwebtoken');
-const ApiError = require('../exceptions/api.error');
-const config = require('../configuration/config');
+const jwt = require('jsonwebtoken')
+const ApiError = require('../exceptions/api.error')
+const config = require('../configuration/config')
 
 function authMiddleware(req, res, next) {
     try {
-        const authorizationHeader = req.headers.authorization;
+        const authorizationHeader = req.headers.authorization
         if (!authorizationHeader) {
-            throw next(ApiError.Unauthorized('No authorization header :('));
+            throw next(ApiError.Unauthorized('no authorization header :('))
         }
 
-        const token = authorizationHeader.split(' ')[1];
+        const token = authorizationHeader.split(' ')[1]
         if (!token) {
-            throw next(ApiError.Unauthorized('Token is not found :('));
+            throw next(ApiError.Unauthorized('token is not found :('))
         }
 
-        const userData = jwt.verify(token, config.jwtSecret);
+        const userData = jwt.verify(token, config.jwtSecret)
 
-        req.user = userData;
+        req.user = userData
 
-        next();
-    } catch (_error) {
-        return next(ApiError.Unauthorized('Validation failed :('));
+        next()
+    } catch (error) {
+        return next(ApiError.Unauthorized('validation failed :( '))
     }
 }
 
-module.exports = authMiddleware;
+module.exports = authMiddleware

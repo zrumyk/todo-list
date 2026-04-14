@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('joi')
 
 const create = Joi.object({
     username: Joi.string().alphanum().min(3).max(30).required(),
@@ -8,6 +8,6 @@ const create = Joi.object({
     password: Joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
         .required(),
-});
+})
 
-module.exports = { create };
+module.exports = { create }

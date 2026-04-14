@@ -1,14 +1,12 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 // routes import
-const userRoutes = require('./di/user.routes');
-const taskRoutes = require('./di/task.routes');
-const authRoutes = require('./di/auth.routes');
+const userRoutes = require('../routes/user.routes')
+const taskRoutes = require('../routes/task.routes')
 
 // global router
-router.use('/users', userRoutes);
-router.use('/tasks', taskRoutes);
-router.use('/auth', authRoutes);
+router.use('/users', userRoutes)
+router.use('/tasks', taskRoutes)
 
-module.exports = router;
+module.exports = router

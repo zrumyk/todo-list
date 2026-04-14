@@ -40,7 +40,7 @@ describe('user.controller', () => {
 
             expect(mockUserService.find).toHaveBeenCalledWith(req.user.id);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
@@ -91,7 +91,7 @@ describe('user.controller', () => {
                 req.body
             );
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 

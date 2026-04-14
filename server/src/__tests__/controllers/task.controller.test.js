@@ -46,7 +46,7 @@ describe('task.controller', () => {
                 req.body
             );
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
@@ -73,7 +73,7 @@ describe('task.controller', () => {
                 req.body
             );
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
@@ -121,7 +121,7 @@ describe('task.controller', () => {
 
             expect(mockTaskService.find).toHaveBeenCalledWith(req.params.id);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
@@ -147,7 +147,7 @@ describe('task.controller', () => {
                 req.user.id
             );
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
