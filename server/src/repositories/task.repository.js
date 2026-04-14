@@ -8,7 +8,7 @@ class TaskRepository {
             data: {
                 title: taskData.title,
                 description: taskData.description,
-                userId,
+                userId: Number(userId),
             },
         });
     }

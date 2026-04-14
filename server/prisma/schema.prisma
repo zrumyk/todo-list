@@ -17,6 +17,8 @@ model User{
   email String     @unique
   password String
   tasks Task[]
+
+  @@map("users")
 }
 
 model Task{
@@ -28,4 +30,6 @@ model Task{
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   status Status       @default(TODO)  
+
+  @@map("tasks")
 }

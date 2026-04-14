@@ -15,12 +15,11 @@ function authMiddleware(req, res, next) {
         }
 
         const userData = jwt.verify(token, config.jwtSecret);
-
         req.user = userData;
 
         next();
-    } catch (_error) {
-        return next(ApiError.Unauthorized('Validation failed :('));
+    } catch (error) {
+        return next(error);
     }
 }
 

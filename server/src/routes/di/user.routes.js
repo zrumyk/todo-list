@@ -22,7 +22,6 @@ const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 // routes
-router.get('/profile', authMiddleware, userController.find);
 router.patch(
     '/update',
     authMiddleware,

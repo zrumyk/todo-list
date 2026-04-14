@@ -40,7 +40,7 @@ describe('auth.controller', () => {
 
             expect(mockAuthService.register).toHaveBeenCalledWith(req.body);
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 
@@ -64,7 +64,7 @@ describe('auth.controller', () => {
 
             expect(mockAuthService.login).toHaveBeenCalledWith(req.body);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ success: true, data });
+            expect(res.json).toHaveBeenCalledWith(data);
             expect(next).not.toHaveBeenCalled();
         });
 

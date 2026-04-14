@@ -28,16 +28,6 @@ class UserService {
         }
         await this.userRepository.deleteUser(userId);
     }
-
-    async find(userId) {
-        const user = await this.userRepository.findById(userId);
-        if (!user) {
-            throw ApiError.BadRequest('User is not exist :(');
-        }
-
-        const { password: _, ...userData } = user;
-        return userData;
-    }
 }
 
 module.exports = UserService;

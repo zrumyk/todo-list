@@ -6,10 +6,7 @@ class UserController {
     update = async (req, res, next) => {
         try {
             const data = await this.userService.update(req.user.id, req.body);
-            res.status(200).json({
-                success: true,
-                data,
-            });
+            res.status(200).json(data);
         } catch (error) {
             next(error);
         }
@@ -19,18 +16,6 @@ class UserController {
         try {
             await this.userService.delete(req.user.id);
             res.status(204).json();
-        } catch (error) {
-            next(error);
-        }
-    };
-
-    find = async (req, res, next) => {
-        try {
-            const data = await this.userService.find(req.user.id);
-            res.status(200).json({
-                success: true,
-                data,
-            });
         } catch (error) {
             next(error);
         }

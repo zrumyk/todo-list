@@ -1,9 +1,13 @@
 const validate = (schema) => (req, res, next) => {
-    const { error } = schema.validate(req.body);
-    if (error) {
-        return next(error);
+    try {
+        const { error } = schema.validate(req.body);
+        if (error) {
+            return next(error);
+        }
+        next();
+    } catch (err) {
+        next(err);
     }
-    next();
 };
 
 module.exports = validate;

@@ -10,9 +10,10 @@ class AuthService {
         this.userRepository = userRepository;
     }
 
-    #createJWT(id, email) {
+    #createJWT(id, username, email) {
         const payload = {
             id,
+            username,
             email,
         };
 
@@ -33,7 +34,7 @@ class AuthService {
             throw ApiError.BadRequest('Wrong password :(');
         }
 
-        const token = this.#createJWT(user.id, user.email);
+        const token = this.#createJWT(user.id, user.username, user.email);
         const { password: _, ...userData } = user;
         return { token, userData };
     }
@@ -52,9 +53,19 @@ class AuthService {
             password: hashedPassword,
         });
 
-        const token = this.#createJWT(user.id, user.email);
+        const token = this.#createJWT(user.id, user.username, user.email);
         const { password: _, ...userData } = user;
         return { token, userData };
+    }
+
+    async getMe(userId) {
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw ApiError.BadRequest('User is not exist :(');
+        }
+
+        const { password: _, ...userData } = user;
+        return userData;
     }
 }
 

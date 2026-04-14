@@ -21,7 +21,6 @@ describe('error handler', () => {
 
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.json).toHaveBeenCalledWith({
-            success: false,
             message: 'ApiError :(',
         });
     });
@@ -36,7 +35,6 @@ describe('error handler', () => {
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
-            success: false,
             message: 'PrismaError :(',
         });
     });
@@ -49,7 +47,6 @@ describe('error handler', () => {
 
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({
-            success: false,
             message: 'Data validation error: ' + err.details[0].message,
         });
     });
@@ -61,7 +58,6 @@ describe('error handler', () => {
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({
-            success: false,
             message: 'Unpredictable error: ' + err.message,
         });
     });
