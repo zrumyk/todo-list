@@ -31,37 +31,13 @@
 
 ---
 
-## 📂 Структура проєкту (Монорепозиторій)
-
-Проєкт розділений на дві незалежні частини:
-
-```text
-📦 todo-list
- ┣ 📂 client/               # Фронтенд (React / Vite)
- ┃  ┣ 📂 src/
- ┃  ┃  ┣ 📂 features/       # Ізольовані бізнес-домени (auth, tasks)
- ┃  ┃  ┣ 📂 components/     # Глобальні UI-компоненти
- ┃  ┃  ┣ 📂 stores/         # Zustand стейти
- ┃  ┃  ┗ 📂 routes/         # Налаштування React Router
- ┃
- ┗ 📂 server/               # Бекенд (Node.js / Express)
-    ┣ 📂 prisma/            # Схема бази даних та міграції
-    ┗ 📂 src/
-       ┣ 📂 controllers/    # Обробка HTTP-запитів та відповідей
-       ┣ 📂 services/       # Бізнес-логіка додатку
-       ┣ 📂 repositories/   # Взаємодія з базою даних (Prisma)
-       ┗ 📂 middlewares/    # Валідація, авторизація, обробка помилок
-```
-
----
-
 ## 🚀 Інструкція з локального запуску (Development)
 
 Щоб запустити проєкт на своєму комп'ютері, виконайте наступні кроки:
 
 ### 1. Клонування репозиторію
 ```bash
-git clone https://github.com/[твій-юзернейм]/todo-list.git
+git clone https://github.com/zrumyk/todo-list.git
 cd todo-list
 ```
 
