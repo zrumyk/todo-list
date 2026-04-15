@@ -7,11 +7,11 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
-        <Route path='auth' element={<AuthPage />} />
+        <Route path="auth" element={<AuthPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path='/' element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -2,7 +2,7 @@ import { apiClient } from '../../../lib/axios';
 
 export const getTasks = async () => {
   const response = await apiClient.get('/tasks/all');
-  return response.data?.data || response.data; 
+  return response.data?.data || response.data;
 };
 
 export const createTask = async (taskData) => {

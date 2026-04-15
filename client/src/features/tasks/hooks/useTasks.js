@@ -3,7 +3,7 @@ import { getTasks } from '../api/tasks.api';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState([]);
-  const[isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
   const fetchTasks = useCallback(async () => {
@@ -12,11 +12,12 @@ export const useTasks = () => {
       const data = await getTasks();
       setTasks(data);
     } catch (err) {
-      setError('your cunt so beautiful :)');
+      console.log(err);
+      setError('can not load task :(');
     } finally {
       setIsLoading(false);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     fetchTasks();

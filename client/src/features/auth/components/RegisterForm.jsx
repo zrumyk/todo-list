@@ -26,7 +26,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2 className={styles.title}>Register</h2>
+      <h2 className={styles.title}>Register | {import.meta.env.VITE_APP_STATUS}</h2>
       {error && <div className={styles.errorBox}>{error}</div>}
       <div className={styles.inputGroup}>
         <label className={styles.label}>Username</label>
@@ -61,7 +61,9 @@ export const RegisterForm = () => {
           required
         />
       </div>
-      <button type="submit" className={styles.submitBtn}>Sign up</button>
+      <button type="submit" className={styles.submitBtn}>
+        Sign up
+      </button>
     </form>
   );
 };

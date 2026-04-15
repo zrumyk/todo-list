@@ -1,108 +1,108 @@
 const UserController = require('../../controllers/user.controller');
 
 describe('user.controller', () => {
-    let userController;
-    let mockUserService;
-    let req, res, next;
+  let userController;
+  let mockUserService;
+  let req, res, next;
 
-    beforeEach(() => {
-        mockUserService = {
-            register: jest.fn(),
-            login: jest.fn(),
-            find: jest.fn(),
-            delete: jest.fn(),
-            update: jest.fn(),
-        };
-        userController = new UserController(mockUserService);
+  beforeEach(() => {
+    mockUserService = {
+      register: jest.fn(),
+      login: jest.fn(),
+      find: jest.fn(),
+      delete: jest.fn(),
+      update: jest.fn(),
+    };
+    userController = new UserController(mockUserService);
 
-        req = {
-            body: {
-                username: 'test',
-                email: 'test@example.com',
-            },
-            user: {
-                id: 1,
-            },
-        };
-        res = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
-        };
-        next = jest.fn();
+    req = {
+      body: {
+        username: 'test',
+        email: 'test@example.com',
+      },
+      user: {
+        id: 1,
+      },
+    };
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    next = jest.fn();
+  });
+
+  describe('find', () => {
+    test('should return status 200 and data', async () => {
+      const data = { id: 1 };
+      mockUserService.find.mockResolvedValue(data);
+
+      await userController.find(req, res, next);
+
+      expect(mockUserService.find).toHaveBeenCalledWith(req.user.id);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith(data);
+      expect(next).not.toHaveBeenCalled();
     });
 
-    describe('find', () => {
-        test('should return status 200 and data', async () => {
-            const data = { id: 1 };
-            mockUserService.find.mockResolvedValue(data);
+    test('should catch an error in next()', async () => {
+      const fakeError = new Error('Error :(');
+      mockUserService.find.mockRejectedValue(fakeError);
 
-            await userController.find(req, res, next);
+      await userController.find(req, res, next);
 
-            expect(mockUserService.find).toHaveBeenCalledWith(req.user.id);
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(data);
-            expect(next).not.toHaveBeenCalled();
-        });
+      expect(next).toHaveBeenCalledWith(fakeError);
+      expect(res.status).not.toHaveBeenCalled();
+    });
+  });
 
-        test('should catch an error in next()', async () => {
-            const fakeError = new Error('Error :(');
-            mockUserService.find.mockRejectedValue(fakeError);
+  describe('delete', () => {
+    test('should return status 204 without data', async () => {
+      const data = { id: 1 };
+      mockUserService.delete.mockResolvedValue(data);
 
-            await userController.find(req, res, next);
+      await userController.delete(req, res, next);
 
-            expect(next).toHaveBeenCalledWith(fakeError);
-            expect(res.status).not.toHaveBeenCalled();
-        });
+      expect(mockUserService.delete).toHaveBeenCalledWith(req.user.id);
+      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.json).toHaveBeenCalled();
+      expect(next).not.toHaveBeenCalled();
     });
 
-    describe('delete', () => {
-        test('should return status 204 without data', async () => {
-            const data = { id: 1 };
-            mockUserService.delete.mockResolvedValue(data);
+    test('should catch an error in next()', async () => {
+      const fakeError = new Error('Error :(');
+      mockUserService.delete.mockRejectedValue(fakeError);
 
-            await userController.delete(req, res, next);
+      await userController.delete(req, res, next);
 
-            expect(mockUserService.delete).toHaveBeenCalledWith(req.user.id);
-            expect(res.status).toHaveBeenCalledWith(204);
-            expect(res.json).toHaveBeenCalled();
-            expect(next).not.toHaveBeenCalled();
-        });
+      expect(next).toHaveBeenCalledWith(fakeError);
+      expect(res.status).not.toHaveBeenCalled();
+    });
+  });
 
-        test('should catch an error in next()', async () => {
-            const fakeError = new Error('Error :(');
-            mockUserService.delete.mockRejectedValue(fakeError);
+  describe('update', () => {
+    test('should return status 200 and data', async () => {
+      const data = { id: 1 };
+      mockUserService.update.mockResolvedValue(data);
 
-            await userController.delete(req, res, next);
+      await userController.update(req, res, next);
 
-            expect(next).toHaveBeenCalledWith(fakeError);
-            expect(res.status).not.toHaveBeenCalled();
-        });
+      expect(mockUserService.update).toHaveBeenCalledWith(
+        req.user.id,
+        req.body
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith(data);
+      expect(next).not.toHaveBeenCalled();
     });
 
-    describe('update', () => {
-        test('should return status 200 and data', async () => {
-            const data = { id: 1 };
-            mockUserService.update.mockResolvedValue(data);
+    test('should catch an error in next()', async () => {
+      const fakeError = new Error('Error :(');
+      mockUserService.update.mockRejectedValue(fakeError);
 
-            await userController.update(req, res, next);
+      await userController.update(req, res, next);
 
-            expect(mockUserService.update).toHaveBeenCalledWith(
-                req.user.id,
-                req.body
-            );
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(data);
-            expect(next).not.toHaveBeenCalled();
-        });
-
-        test('should catch an error in next()', async () => {
-            const fakeError = new Error('Error :(');
-            mockUserService.update.mockRejectedValue(fakeError);
-
-            await userController.update(req, res, next);
-
-            expect(next).toHaveBeenCalledWith(fakeError);
-            expect(res.status).not.toHaveBeenCalled();
-        });
+      expect(next).toHaveBeenCalledWith(fakeError);
+      expect(res.status).not.toHaveBeenCalled();
     });
+  });
 });

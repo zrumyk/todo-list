@@ -16,7 +16,6 @@ const UserRepository = require('../../repositories/user.repository');
 const AuthService = require('../../services/auth.service');
 const AuthController = require('../../controllers/auth.controller');
 
-
 // dependency injection
 const userRepository = new UserRepository(prisma);
 const authService = new AuthService(userRepository);

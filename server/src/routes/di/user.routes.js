@@ -23,10 +23,10 @@ const userController = new UserController(userService);
 
 // routes
 router.patch(
-    '/update',
-    authMiddleware,
-    validate(usersSchema.update),
-    userController.update
+  '/update',
+  authMiddleware,
+  validate(usersSchema.update),
+  userController.update
 );
 router.delete('/delete', authMiddleware, userController.delete);
 

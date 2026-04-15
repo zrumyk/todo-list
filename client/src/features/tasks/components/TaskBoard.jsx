@@ -11,14 +11,16 @@ const TaskItem = ({ task, onRefresh }) => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm('Delete?')) {
-      await deleteTask(task.id);
-      onRefresh();
-    }
+    await deleteTask(task.id);
+    onRefresh();
   };
 
   return (
-    <div className={`${styles.taskCard} ${task.status === 'COMPLETED' ? styles.completed : ''}`}>
+    <div
+      className={`${styles.taskCard} ${
+        task.status === 'COMPLETED' ? styles.completed : ''
+      }`}
+    >
       <div className={styles.taskInfo}>
         <h4>{task.title}</h4>
         {task.description && <p>{task.description}</p>}
@@ -27,7 +29,9 @@ const TaskItem = ({ task, onRefresh }) => {
         <button onClick={handleStatus} className={styles.statusBtn}>
           {task.status === 'TODO' ? '✔' : '↩️'}
         </button>
-        <button onClick={handleDelete} className={styles.deleteBtn}>❌</button>
+        <button onClick={handleDelete} className={styles.deleteBtn}>
+          ❌
+        </button>
       </div>
     </div>
   );
@@ -39,8 +43,8 @@ export const TaskBoard = () => {
   if (isLoading) return <div className={styles.loader}></div>;
   if (error) return <div className={styles.error}>{error}</div>;
 
-  const todoTasks = tasks.filter(t => t.status === 'TODO');
-  const completedTasks = tasks.filter(t => t.status === 'COMPLETED');
+  const todoTasks = tasks.filter((t) => t.status === 'TODO');
+  const completedTasks = tasks.filter((t) => t.status === 'COMPLETED');
 
   return (
     <div className={styles.boardContainer}>
@@ -50,7 +54,7 @@ export const TaskBoard = () => {
         <div className={styles.column}>
           <h3>Todo ({todoTasks.length})</h3>
           <div className={styles.taskList}>
-            {todoTasks.map(task => (
+            {todoTasks.map((task) => (
               <TaskItem key={task.id} task={task} onRefresh={refetch} />
             ))}
           </div>
@@ -59,7 +63,7 @@ export const TaskBoard = () => {
         <div className={styles.column}>
           <h3>Completed ({completedTasks.length})</h3>
           <div className={styles.taskList}>
-            {completedTasks.map(task => (
+            {completedTasks.map((task) => (
               <TaskItem key={task.id} task={task} onRefresh={refetch} />
             ))}
           </div>

@@ -27,9 +27,9 @@ router.get('/get/:id', taskController.find);
 router.get('/all', taskController.findUserTasks);
 
 router.patch(
-    '/update/:id',
-    validate(tasksSchema.update),
-    taskController.update
+  '/update/:id',
+  validate(tasksSchema.update),
+  taskController.update
 );
 
 router.delete('/delete/:id', taskController.delete);

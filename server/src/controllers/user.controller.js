@@ -1,64 +1,64 @@
 class UserController {
-    constructor(userService) {
-        this.userService = userService
-    }
+  constructor(userService) {
+    this.userService = userService;
+  }
 
-    update = async (req, res, next) => {
-        try {
-            const data = await this.userService.update(req.user.id, req.body)
-            res.status(200).json({
-                success: true,
-                data,
-            })
-        } catch (error) {
-            next(error)
-        }
+  update = async (req, res, next) => {
+    try {
+      const data = await this.userService.update(req.user.id, req.body);
+      res.status(200).json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
     }
+  };
 
-    delete = async (req, res, next) => {
-        try {
-            await this.userService.delete(req.user.id)
-            res.status(204).json()
-        } catch (error) {
-            next(error)
-        }
+  delete = async (req, res, next) => {
+    try {
+      await this.userService.delete(req.user.id);
+      res.status(204).json();
+    } catch (error) {
+      next(error);
     }
+  };
 
-    find = async (req, res, next) => {
-        try {
-            const data = await this.userService.find(req.user.id)
-            res.status(200).json({
-                success: true,
-                data,
-            })
-        } catch (error) {
-            next(error)
-        }
+  find = async (req, res, next) => {
+    try {
+      const data = await this.userService.find(req.user.id);
+      res.status(200).json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
     }
+  };
 
-    login = async (req, res, next) => {
-        try {
-            const data = await this.userService.login(req.body)
-            res.status(200).json({
-                success: true,
-                data,
-            })
-        } catch (error) {
-            next(error)
-        }
+  login = async (req, res, next) => {
+    try {
+      const data = await this.userService.login(req.body);
+      res.status(200).json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
     }
+  };
 
-    register = async (req, res, next) => {
-        try {
-            const data = await this.userService.register(req.body)
-            res.status(201).json({
-                success: true,
-                data,
-            })
-        } catch (error) {
-            next(error)
-        }
+  register = async (req, res, next) => {
+    try {
+      const data = await this.userService.register(req.body);
+      res.status(201).json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
     }
+  };
 }
 
-module.exports = UserController
+module.exports = UserController;

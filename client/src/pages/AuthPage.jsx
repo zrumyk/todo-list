@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './AuthPage.module.css';
 import { LoginForm } from '../features/auth/components/LoginForm';
-import { RegisterForm } from '../features/auth/components/registerForm';
+import { RegisterForm } from '../features/auth/components/RegisterForm';
 
 export const AuthPage = () => {
   const [authMode, setAuthMode] = useState('login');
@@ -13,9 +13,19 @@ export const AuthPage = () => {
 
         <div className={styles.toggleContainer}>
           {authMode === 'login' ? (
-            <button className={styles.toggleBtn} onClick={() => setAuthMode('register')}>Register</button>
+            <button
+              className={styles.toggleBtn}
+              onClick={() => setAuthMode('register')}
+            >
+              Register
+            </button>
           ) : (
-            <button className={styles.toggleBtn} onClick={() => setAuthMode('login')}>Login</button>
+            <button
+              className={styles.toggleBtn}
+              onClick={() => setAuthMode('login')}
+            >
+              Login
+            </button>
           )}
         </div>
       </div>
