@@ -15,8 +15,6 @@ services:
   backend:
     image: ghcr.io/zrumyk/todo-list-backend:latest
     container_name: todo_backend
-    ports:
-      - "3000:3000"
     env_file:
       - "./.env"
     depends_on:
@@ -27,7 +25,7 @@ services:
     image: ghcr.io/zrumyk/todo-list-frontend:latest
     container_name: todo_frontend
     ports:
-      - "5173:80"
+      - "80:80"
     depends_on:
       - backend
     restart: unless-stopped
