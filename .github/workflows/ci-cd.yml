@@ -26,7 +26,10 @@ jobs:
           node-version: '20'
           
       - name: Install Backend Dependencies
-        run: cd server && npm ci
+        run: |
+          cd server
+          npm ci
+          npx prisma generate
         
       - name: Run ESLint (Backend)
         run: cd server && npm run lint --if-present
