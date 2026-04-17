@@ -19,7 +19,7 @@ services:
       - "./.env"
     depends_on:
       - postgres-db
-    restart: unless-stopped
+    restart: always
 
   frontend:
     image: ghcr.io/zrumyk/todo-list-frontend:latest

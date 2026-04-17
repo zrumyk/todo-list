@@ -110,5 +110,8 @@ jobs:
             # 5. restart container
             docker-compose up -d
 
-            # 6. clean old images
+            # 6. db push
+            docker exec todo_backend npx prisma db push
+
+            # 7. clean old images
             docker image prune -af
