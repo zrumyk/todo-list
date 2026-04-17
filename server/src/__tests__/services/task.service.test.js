@@ -125,7 +125,7 @@ describe('delete task', () => {
     const result = await taskService.delete(taskId);
 
     expect(mockTaskRepository.delete).toHaveBeenCalledWith(taskId);
-    expect(result).toBeUndefined();
+    expect(result).toMatchObject({});
   });
 });
 

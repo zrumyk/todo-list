@@ -2,8 +2,6 @@ const { ValidationError } = require('joi');
 const ApiError = require('../exceptions/api.error');
 
 function errorMiddleware(err, req, res, next) {
-  console.error('error: ', err);
-
   if (err instanceof ApiError) {
     return res.status(err.status).json({
       success: false,

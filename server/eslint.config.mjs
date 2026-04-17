@@ -4,10 +4,24 @@ import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
-    files: ['**/*.{js,mjs,cjs}'],
+    files:['**/*.{js,mjs,cjs}'],
     plugins: { js },
     extends: ['js/recommended'],
-    languageOptions: { globals: globals.node },
+    languageOptions: { 
+      globals: {
+        ...globals.node,
+        ...globals.jest
+      } 
+    },
+    rules: {
+      "no-unused-vars":["error", { 
+        "argsIgnorePattern": "^_|^next$", 
+        "varsIgnorePattern": "^_|^error$" 
+      }]
+    }
   },
-  { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
+  { 
+    files:['**/*.js'], 
+    languageOptions: { sourceType: 'commonjs' } 
+  },
 ]);

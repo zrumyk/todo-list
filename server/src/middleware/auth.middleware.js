@@ -20,7 +20,8 @@ function authMiddleware(req, res, next) {
 
     next();
   } catch (error) {
-    return next(ApiError.Unauthorized('validation failed :( '));
+    console.log(error);
+    return next(ApiError.Unauthorized('validation failed :('));
   }
 }
 

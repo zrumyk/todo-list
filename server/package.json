@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --coverage",
     "dev": "nodemon src/server.js",
-    "lint": "eslint **/*.js",
+    "lint": "eslint src",
     "format:fix": "prettier --write .",
     "format:check": "prettier --check ."
   },

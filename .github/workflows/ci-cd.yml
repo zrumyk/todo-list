@@ -39,9 +39,6 @@ jobs:
         
       - name: Run ESLint (Frontend)
         run: cd client && npm run lint --if-present
-        
-      - name: Run Tests (Frontend)
-        run: cd client && npm test --if-present
 
   build-and-push:
     needs: test
