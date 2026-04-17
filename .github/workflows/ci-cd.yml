@@ -105,10 +105,10 @@ jobs:
             curl -H "Authorization: token ${{ secrets.GH_PAT }}" -H "Accept: application/vnd.github.v3.raw" -L https://api.github.com/repos/${{ github.repository }}/contents/docker-compose.prod.yml -o docker-compose.yml
 
             # 4. pull new images
-            docker-compose pull
+            docker compose pull
 
             # 5. restart container
-            docker-compose up -d
+            docker compose up -d
 
             # 6. db push
             docker exec todo_backend npx prisma db push
