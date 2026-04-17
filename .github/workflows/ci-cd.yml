@@ -1,0 +1,112 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install Backend Dependencies
+        run: cd server && npm ci
+        
+      - name: Run ESLint (Backend)
+        run: cd server && npm run lint --if-present
+        
+      - name: Run Tests (Backend)
+        run: cd server && npm test --if-present
+          
+      - name: Install Frontend Dependencies
+        run: cd client && npm ci
+        
+      - name: Run ESLint (Frontend)
+        run: cd client && npm run lint --if-present
+        
+      - name: Run Tests (Frontend)
+        run: cd client && npm test --if-present
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Lowercase Repository Name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build and push Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./server
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}-backend:latest
+          
+      - name: Build and push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./client
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}-frontend:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lowercase Repository Name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: REPO_NAME
+          script: |
+            # 1. Server authorization in GitHub Registry
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # 2. Go to the project folder
+            mkdir -p ~/todo-app
+            cd ~/todo-app
+            
+            # 3. Download docker-compose.prod.yml
+            curl -H "Authorization: token ${{ secrets.GH_PAT }}" -H "Accept: application/vnd.github.v3.raw" -L https://api.github.com/repos/${{ github.repository }}/contents/docker-compose.prod.yml -o docker-compose.yml
+            
+            # 4. pull new images
+            docker-compose pull
+            
+            # 5. restart container
+            docker-compose up -d
+            
+            # 6. clean old images
+            docker image prune -af
