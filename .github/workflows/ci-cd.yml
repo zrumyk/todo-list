@@ -1,76 +1,76 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline # Назва всього процесу автоматизації
 
-on:
-  push:
+on: # Визначення подій, які запускають цей файл
+  push: # Запуск при відправці коду в зазначені гілки
     branches:
       - main
       - dev
-  pull_request:
+  pull_request: # Запуск при створенні запитів на злиття в ці гілки
     branches:
       - main
       - dev
 
-env:
-  REGISTRY: ghcr.io
+env: # Глобальні змінні для всього пайплайну
+  REGISTRY: ghcr.io # Docker реєстр GitHub (GitHub Container Registry)
 
 jobs:
-  test:
+  test: # ПЕРША РОБОТА: Перевірка коду та запуск тестів
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository # Клонування вихідного коду у віртуальне середовище Runner
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js # Встановлення та налаштування середовища Node.js потрібної версії
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Install Backend Dependencies
+      - name: Install Backend Dependencies # Встановлення бібліотек бекенду та генерація Prisma клієнта для роботи з БД
         run: |
           cd server
           npm ci
           npx prisma generate
 
-      - name: Run ESLint (Backend)
+      - name: Run ESLint (Backend) # Статичний аналіз коду бекенду на відповідність стандартам
         run: cd server && npm run lint --if-present
 
-      - name: Run Tests (Backend)
+      - name: Run Tests (Backend) # Запуск автоматизованих тестів бекенд-частини
         run: cd server && npm test --if-present
 
-      - name: Install Frontend Dependencies
+      - name: Install Frontend Dependencies # Встановлення залежностей для фронтенд-додатка (React)
         run: cd client && npm ci
 
-      - name: Run ESLint (Frontend)
+      - name: Run ESLint (Frontend) # Статичний аналіз коду фронтенду
         run: cd client && npm run lint --if-present
 
-  build-and-push:
-    needs: test
+  build-and-push: # ДРУГА РОБОТА: Збірка Docker образів та їх публікація
+    needs: test # Ця робота запуститься тільки якщо 'test' завершиться успішно
     runs-on: ubuntu-latest
-    permissions:
+    permissions: # Дозволи для запису пакетів (Docker образів) у реєстр
       contents: read
       packages: write
     steps:
-      - name: Checkout repository
+      - name: Checkout repository # Клонування коду для збірки образів
         uses: actions/checkout@v4
 
-      - name: Lowercase Repository Name
+      - name: Lowercase Repository Name # Перетворення назви репозиторію в нижній регістр (вимога Docker для тегів)
         run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
-      - name: Log in to the Container registry
+      - name: Log in to the Container registry # Аутентифікація в Docker-реєстрі GitHub за допомогою вбудованого токена
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Backend
+      - name: Build and push Backend # Збірка Docker-образу бекенду та відправка його в сховище
         uses: docker/build-push-action@v5
         with:
           context: ./server
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}-backend:latest
 
-      - name: Build and push Frontend
+      - name: Build and push Frontend # Збірка Docker-образу фронтенду з передачею змінних середовища
         uses: docker/build-push-action@v5
         with:
           context: ./client
@@ -78,15 +78,16 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}-frontend:latest
           build-args: |
             VITE_API_URL=/api
+            VITE_APP_STATUS=production
 
-  deploy:
-    needs: build-and-push
+  deploy: # ТРЕТЯ РОБОТА: Розгортання (деплой) на віддалений сервер
+    needs: build-and-push # Запускається тільки після успішної збірки та пушу образів
     runs-on: ubuntu-latest
     steps:
-      - name: Lowercase Repository Name
+      - name: Lowercase Repository Name # Підготовка назви репозиторію для використання в SSH-скрипті
         run: echo "REPO_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
-      - name: Deploy to VPS
+      - name: Deploy to VPS # Виконання команд безпосередньо на VPS через SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
@@ -94,24 +95,24 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           envs: REPO_NAME
           script: |
-            # 1. Server authorization in GitHub Registry
+            # 1. Авторизація сервера в GitHub Registry для отримання закритих образів
             echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            # 2. Go to the project folder
+            # 2. Створення робочої директорії на сервері та перехід у неї
             mkdir -p ~/todo-app
             cd ~/todo-app
 
-            # 3. Download docker-compose.prod.yml
+            # 3. Завантаження свіжого файлу docker-compose.prod.yml прямо з репозиторію через GitHub API
             curl -H "Authorization: token ${{ secrets.GH_PAT }}" -H "Accept: application/vnd.github.v3.raw" -L https://api.github.com/repos/${{ github.repository }}/contents/docker-compose.prod.yml -o docker-compose.yml
 
-            # 4. pull new images
+            # 4. Оновлення локальних копій Docker-образів на сервері (завантаження 'latest')
             docker compose pull
 
-            # 5. restart container
+            # 5. Запуск (або перезапуск) контейнерів у фоновому режимі
             docker compose up -d
 
-            # 6. db push
+            # 6. Примусова синхронізація схеми бази даних через Prisma всередині працюючого контейнера
             docker exec todo_backend npx prisma db push
 
-            # 7. clean old images
+            # 7. Очищення дискового простору від старих версій образів, що більше не використовуються
             docker image prune -af

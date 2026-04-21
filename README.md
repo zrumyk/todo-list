@@ -1,3 +1,5 @@
+[![CI/CD Pipeline](https://github.com/zrumyk/todo-list/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/zrumyk/todo-list/actions/workflows/ci-cd.yml)
+
 # 📝 Fullstack Todo-List App
 
 Сучасний вебзастосунок для управління завданнями, побудований за принципами чистої архітектури (3-Layer Architecture на бекенді) та методологією Bulletproof React на фронтенді.
