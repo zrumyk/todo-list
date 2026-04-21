@@ -24,8 +24,6 @@ services:
   frontend:
     image: ghcr.io/zrumyk/todo-list-frontend:latest
     container_name: todo_frontend
-    env_file:
-      - "./.env.production"
     ports:
       - "80:80"
     depends_on:
