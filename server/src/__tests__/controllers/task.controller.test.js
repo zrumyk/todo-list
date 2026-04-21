@@ -131,7 +131,12 @@ describe('task.controller', () => {
 
       expect(mockTaskService.find).toHaveBeenCalledWith(req.params.id);
       expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith(data);
+      expect(res.json).toHaveBeenCalledWith({
+        data: {
+          id: 1,
+        },
+        success: true,
+      });
       expect(next).not.toHaveBeenCalled();
     });
 
