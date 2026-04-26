@@ -1,6 +1,7 @@
 import { useTasks } from '../hooks/useTasks';
 import { CreateTaskForm } from './CreateTasForm';
 import { deleteTask, updateTask } from '../api/tasks.api';
+import posthog from 'posthog-js';
 import styles from './Tasks.module.css';
 
 const TaskItem = ({ task, onRefresh }) => {
