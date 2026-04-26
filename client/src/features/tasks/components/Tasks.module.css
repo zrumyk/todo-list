@@ -105,3 +105,29 @@
 .deleteBtn:hover {
   background: #fee2e2;
 }
+
+.filterWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.urgentBtn {
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.urgentBtn.active {
+  background-color: var(--danger);
+}
+
+.emptyMsg {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 20px;
+}
