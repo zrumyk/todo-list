@@ -7,11 +7,23 @@ const TaskItem = ({ task, onRefresh }) => {
   const handleStatus = async () => {
     const newStatus = task.status === 'TODO' ? 'COMPLETED' : 'TODO';
     await updateTask(task.id, newStatus);
+
+    if (newStatus === 'COMPLETED') {
+      posthog.capture('task_completed', {
+        time_to_complete_seconds: Math.floor((new Date() - new Date(task.createdAt)) / 1000)
+      });
+    }
+
     onRefresh();
   };
 
   const handleDelete = async () => {
     await deleteTask(task.id);
+
+    posthog.capture('task_deleted', {
+      status_before_delete: task.status,
+    });
+
     onRefresh();
   };
 

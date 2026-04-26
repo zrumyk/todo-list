@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createTask } from '../api/tasks.api';
+import posthog from 'posthog-js';
 import styles from './Tasks.module.css';
 
 export const CreateTaskForm = ({ onTaskCreated }) => {
@@ -15,6 +16,13 @@ export const CreateTaskForm = ({ onTaskCreated }) => {
     try {
       setIsLoading(true);
       await createTask({ title, description });
+
+      posthog.capture('task_created', {
+        priority: 'high',
+        has_description: !!description,
+        is_authenticated: true
+      });
+
       setTitle('');
       setDescription('');
       onTaskCreated();
