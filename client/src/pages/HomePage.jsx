@@ -21,7 +21,7 @@ export const HomePage = () => {
         </button>
         <button
           onClick={() => {
-            throw new Error('Sentry Test Error!');
+            throw new Error('Sentry Test Error! :(');
           }}
         >
           error
