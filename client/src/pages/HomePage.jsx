@@ -19,13 +19,13 @@ export const HomePage = () => {
         <button onClick={logout} style={{ color: 'red', fontWeight: 'bold' }}>
           Exit
         </button>
-          <button
-            onClick={() => {
-              throw new Error('Sentry Test Error!');
-            }}
-          >
-            error
-          </button>
+        <button
+          onClick={() => {
+            throw new Error('Sentry Test Error!');
+          }}
+        >
+          error
+        </button>
       </header>
 
       <TaskBoard />

@@ -20,7 +20,7 @@ export const CreateTaskForm = ({ onTaskCreated }) => {
       posthog.capture('task_created', {
         priority: 'high',
         has_description: !!description,
-        is_authenticated: true
+        is_authenticated: true,
       });
 
       setTitle('');

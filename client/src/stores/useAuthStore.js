@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import * as Sentry from "@sentry/react";
+import * as Sentry from '@sentry/react';
 
 export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')),
@@ -12,7 +12,11 @@ export const useAuthStore = create((set) => ({
       user: JSON.parse(localStorage.getItem('user')),
       isAuthenticated: true,
     });
-    Sentry.setUser({ id: userData.id, email: userData.email, username: userData.username });
+    Sentry.setUser({
+      id: userData.id,
+      email: userData.email,
+      username: userData.username,
+    });
   },
 
   logout: () => {

@@ -12,7 +12,9 @@ const TaskItem = ({ task, onRefresh }) => {
 
     if (newStatus === 'COMPLETED') {
       posthog.capture('task_completed', {
-        time_to_complete_seconds: Math.floor((new Date() - new Date(task.createdAt)) / 1000)
+        time_to_complete_seconds: Math.floor(
+          (new Date() - new Date(task.createdAt)) / 1000
+        ),
       });
     }
 
@@ -28,16 +30,26 @@ const TaskItem = ({ task, onRefresh }) => {
   };
 
   return (
-    <div className={`${styles.taskCard} ${task.status === 'COMPLETED' ? styles.completed : ''}`}>
+    <div
+      className={`${styles.taskCard} ${task.status === 'COMPLETED' ? styles.completed : ''}`}
+    >
       <div className={styles.taskInfo}>
         <h4>{task.title}</h4>
         {task.description && <p>{task.description}</p>}
       </div>
       <div className={styles.taskActions}>
-        <button onClick={handleStatus} className={styles.statusBtn} title="Change status">
+        <button
+          onClick={handleStatus}
+          className={styles.statusBtn}
+          title="Change status"
+        >
           {task.status === 'TODO' ? '✔' : '↩️'}
         </button>
-        <button onClick={handleDelete} className={styles.deleteBtn} title="Delete">
+        <button
+          onClick={handleDelete}
+          className={styles.deleteBtn}
+          title="Delete"
+        >
           ❌
         </button>
       </div>
@@ -47,7 +59,9 @@ const TaskItem = ({ task, onRefresh }) => {
 
 const TaskColumn = ({ title, tasks, onRefresh }) => (
   <div className={styles.column}>
-    <h3>{title} ({tasks.length})</h3>
+    <h3>
+      {title} ({tasks.length})
+    </h3>
     <div className={styles.taskList}>
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} onRefresh={onRefresh} />
@@ -59,7 +73,7 @@ const TaskColumn = ({ title, tasks, onRefresh }) => (
 
 export const TaskBoard = () => {
   const { tasks, isLoading, error, refetch } = useTasks();
-  
+
   const [isUrgentFeatureActive, setIsUrgentFeatureActive] = useState(false);
   const [filterUrgent, setFilterUrgent] = useState(false);
 
@@ -74,11 +88,12 @@ export const TaskBoard = () => {
   if (isLoading) return <div className={styles.loader}>Loading...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
 
-  const filteredTasks = filterUrgent 
-    ? tasks.filter(t => 
-        t.title.includes('!') || 
-        t.description?.toLowerCase().includes('urgent') || 
-        t.description?.toLowerCase().includes('asap')
+  const filteredTasks = filterUrgent
+    ? tasks.filter(
+        (t) =>
+          t.title.includes('!') ||
+          t.description?.toLowerCase().includes('urgent') ||
+          t.description?.toLowerCase().includes('asap')
       )
     : tasks;
 
@@ -91,7 +106,7 @@ export const TaskBoard = () => {
 
       {isUrgentFeatureActive && (
         <div className={styles.filterWrapper}>
-          <button 
+          <button
             className={`${styles.urgentBtn} ${filterUrgent ? styles.active : ''}`}
             onClick={() => setFilterUrgent(!filterUrgent)}
           >
@@ -101,15 +116,11 @@ export const TaskBoard = () => {
       )}
 
       <div className={styles.columnsWrapper}>
-        <TaskColumn 
-          title="Todo" 
-          tasks={todoTasks} 
-          onRefresh={refetch} 
-        />
-        <TaskColumn 
-          title="Completed" 
-          tasks={completedTasks} 
-          onRefresh={refetch} 
+        <TaskColumn title="Todo" tasks={todoTasks} onRefresh={refetch} />
+        <TaskColumn
+          title="Completed"
+          tasks={completedTasks}
+          onRefresh={refetch}
         />
       </div>
     </div>
