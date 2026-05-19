@@ -80,6 +80,7 @@ jobs:
             VITE_API_URL=${{ secrets.VITE_API_URL }}
             VITE_APP_STATUS=${{ secrets.VITE_APP_STATUS }}
             VITE_PUBLIC_POSTHOG_KEY=${{ secrets.VITE_PUBLIC_POSTHOG_KEY }}
+            VITE_SENTRY_AUTH_TOKEN=${{ secrets.VITE_SENTRY_AUTH_TOKEN }}
 
 
   deploy: # ТРЕТЯ РОБОТА: Розгортання (деплой) на віддалений сервер

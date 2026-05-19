@@ -11,6 +11,7 @@ export const useAuthStore = create((set) => ({
       user: JSON.parse(localStorage.getItem('user')),
       isAuthenticated: true,
     });
+    Sentry.setUser({ id: user.id, email: user.email, username: user.username });
   },
 
   logout: () => {
@@ -20,5 +21,6 @@ export const useAuthStore = create((set) => ({
       user: null,
       isAuthenticated: false,
     });
+    Sentry.setUser(null);
   },
 }));
