@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import * as Sentry from '@sentry/react';
+import posthog from 'posthog-js';
 
 export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')),
@@ -17,6 +18,10 @@ export const useAuthStore = create((set) => ({
       email: userData.email,
       username: userData.username,
     });
+    posthog.identify(userData.id, {
+      email: userData.email,
+      username: userData.username,
+    });
   },
 
   logout: () => {
@@ -27,5 +32,6 @@ export const useAuthStore = create((set) => ({
       isAuthenticated: false,
     });
     Sentry.setUser(null);
+    posthog.reset();
   },
 }));

@@ -7,7 +7,7 @@ import * as Sentry from '@sentry/react';
 
 posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
   api_host: '/ingest/',
-  person_profiles: 'always',
+  person_profiles: 'identified-only',
 });
 
 window.posthog = posthog;
