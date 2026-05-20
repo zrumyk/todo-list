@@ -110,7 +110,7 @@ export const TaskBoard = () => {
             className={`${styles.urgentBtn} ${filterUrgent ? styles.active : ''}`}
             onClick={() => setFilterUrgent(!filterUrgent)}
           >
-            {filterUrgent ? 'show all' : 'only urgent'}
+            {filterUrgent ? 'all' : 'urgent'}
           </button>
         </div>
       )}
