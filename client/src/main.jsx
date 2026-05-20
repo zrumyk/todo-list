@@ -6,9 +6,11 @@ import posthog from 'posthog-js';
 import * as Sentry from '@sentry/react';
 
 posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY, {
-  api_host: '/ingest',
+  api_host: '/ingest/',
   person_profiles: 'always',
 });
+
+window.posthog = posthog;
 
 Sentry.init({
   dsn: 'https://2d54b8f3776694c7419e834e7e1d5658@o4511413588459520.ingest.de.sentry.io/4511413598617680',
